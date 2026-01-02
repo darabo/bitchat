@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17901751FD8010AFC8E750F2 /* bitchatShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 61F92EBA29C47C0FCC482F1F /* bitchatShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		17901751FD8010AFC8E750F2 /* gapShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 61F92EBA29C47C0FCC482F1F /* gapShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3EE336D150427F736F32B56C /* P256K in Frameworks */ = {isa = PBXBuildFile; productRef = B1D9136AA0083366353BFA2F /* P256K */; };
 		885BBED78092484A5B069461 /* P256K in Frameworks */ = {isa = PBXBuildFile; productRef = 4EB6BA1B8464F1EA38F4E286 /* P256K */; };
 		A6E3E5702E77036A0032EA8A /* BitLogger in Frameworks */ = {isa = PBXBuildFile; productRef = A6E3E56F2E77036A0032EA8A /* BitLogger */; };
@@ -49,69 +49,70 @@
 			dstPath = "";
 			dstSubfolder = PlugIns;
 			files = (
-				17901751FD8010AFC8E750F2 /* bitchatShareExtension.appex in Embed Foundation Extensions */,
+				17901751FD8010AFC8E750F2 /* gapShareExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		03C57F452B55FD0FD8F51421 /* bitchatTests_macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bitchatTests_macOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		61F92EBA29C47C0FCC482F1F /* bitchatShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = bitchatShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F3A7C058C2C8E1A06C8CF8B /* bitchat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bitchat.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		96D0D41CA19EE5A772AA8434 /* bitchat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bitchat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		03C57F452B55FD0FD8F51421 /* Gap Mash.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Gap Mash.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		61F92EBA29C47C0FCC482F1F /* gapShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = gapShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F3A7C058C2C8E1A06C8CF8B /* Gap Mash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gap Mash.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		96D0D41CA19EE5A772AA8434 /* Gap Mash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gap Mash.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6F183FC2E948783006A9046 /* tor-nolzma.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = "tor-nolzma.xcframework"; path = "localPackages/Tor/Frameworks/tor-nolzma.xcframework"; sourceTree = "<group>"; };
-		C0DB1DE27F0AAB5092663E8E /* bitchatTests_iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bitchatTests_iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0DB1DE27F0AAB5092663E8E /* Gap Mash.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Gap Mash.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0A1B2C3D4E5F6012345678A /* relays/online_relays_gps.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = relays/online_relays_gps.csv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A6E32D1B2E762EA70032EA8A /* Exceptions for "bitchat" folder in "bitchatShareExtension" target */ = {
+		A6E32D1B2E762EA70032EA8A /* Exceptions for "bitchat" folder in "gapShareExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Services/TransportConfig.swift,
 			);
-			target = 57CA17A36A2532A6CFF367BB /* bitchatShareExtension */;
+			target = 57CA17A36A2532A6CFF367BB /* gapShareExtension */;
 		};
-		A6E32D1C2E762EA70032EA8A /* Exceptions for "bitchat" folder in "bitchat_iOS" target */ = {
+		A6E32D1C2E762EA70032EA8A /* Exceptions for "bitchat" folder in "gap_iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = AF077EA0474EDEDE2C72716C /* bitchat_iOS */;
+			target = AF077EA0474EDEDE2C72716C /* gap_iOS */;
 		};
-		A6E32D1D2E762EA70032EA8A /* Exceptions for "bitchat" folder in "bitchat_macOS" target */ = {
+		A6E32D1D2E762EA70032EA8A /* Exceptions for "bitchat" folder in "gap_macOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 				LaunchScreen.storyboard,
 			);
-			target = 0576A29205865664C0937536 /* bitchat_macOS */;
+			target = 0576A29205865664C0937536 /* gap_macOS */;
 		};
-		A6E32D232E762EAB0032EA8A /* Exceptions for "bitchatShareExtension" folder in "bitchatShareExtension" target */ = {
+		A6E32D232E762EAB0032EA8A /* Exceptions for "bitchatShareExtension" folder in "gapShareExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				ShareViewController.swift,
 			);
-			target = 57CA17A36A2532A6CFF367BB /* bitchatShareExtension */;
+			target = 57CA17A36A2532A6CFF367BB /* gapShareExtension */;
 		};
-		C5E027A52ECCDFD700BD6012 /* Exceptions for "bitchatTests" folder in "bitchatTests_macOS" target */ = {
+		C5E027A52ECCDFD700BD6012 /* Exceptions for "bitchatTests" folder in "gapTests_macOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 				Localization/PrimaryLocalizationKeys.json,
 				README.md,
 			);
-			target = 47FF23248747DD7CB666CB91 /* bitchatTests_macOS */;
+			target = 47FF23248747DD7CB666CB91 /* gapTests_macOS */;
 		};
-		C5E027A82ECCDFE200BD6012 /* Exceptions for "bitchatTests" folder in "bitchatTests_iOS" target */ = {
+		C5E027A82ECCDFE200BD6012 /* Exceptions for "bitchatTests" folder in "gaptest" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 				Localization/PrimaryLocalizationKeys.json,
 				README.md,
 			);
-			target = 6CB97DF2EA57234CB3E563B8 /* bitchatTests_iOS */;
+			target = 6CB97DF2EA57234CB3E563B8 /* gaptest */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -119,9 +120,9 @@
 		A6E32C972E762EA70032EA8A /* bitchat */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A6E32D1B2E762EA70032EA8A /* Exceptions for "bitchat" folder in "bitchatShareExtension" target */,
-				A6E32D1C2E762EA70032EA8A /* Exceptions for "bitchat" folder in "bitchat_iOS" target */,
-				A6E32D1D2E762EA70032EA8A /* Exceptions for "bitchat" folder in "bitchat_macOS" target */,
+				A6E32D1B2E762EA70032EA8A /* Exceptions for "bitchat" folder in "gapShareExtension" target */,
+				A6E32D1C2E762EA70032EA8A /* Exceptions for "bitchat" folder in "gap_iOS" target */,
+				A6E32D1D2E762EA70032EA8A /* Exceptions for "bitchat" folder in "gap_macOS" target */,
 			);
 			path = bitchat;
 			sourceTree = "<group>";
@@ -129,7 +130,7 @@
 		A6E32D212E762EAB0032EA8A /* bitchatShareExtension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A6E32D232E762EAB0032EA8A /* Exceptions for "bitchatShareExtension" folder in "bitchatShareExtension" target */,
+				A6E32D232E762EAB0032EA8A /* Exceptions for "bitchatShareExtension" folder in "gapShareExtension" target */,
 			);
 			path = bitchatShareExtension;
 			sourceTree = "<group>";
@@ -137,8 +138,8 @@
 		A6E32D412E762EAE0032EA8A /* bitchatTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C5E027A82ECCDFE200BD6012 /* Exceptions for "bitchatTests" folder in "bitchatTests_iOS" target */,
-				C5E027A52ECCDFD700BD6012 /* Exceptions for "bitchatTests" folder in "bitchatTests_macOS" target */,
+				C5E027A82ECCDFE200BD6012 /* Exceptions for "bitchatTests" folder in "gaptest" target */,
+				C5E027A52ECCDFD700BD6012 /* Exceptions for "bitchatTests" folder in "gapTests_macOS" target */,
 			);
 			path = bitchatTests;
 			sourceTree = "<group>";
@@ -187,11 +188,11 @@
 		9F37F9F2C353B58AC809E93B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				96D0D41CA19EE5A772AA8434 /* bitchat.app */,
-				8F3A7C058C2C8E1A06C8CF8B /* bitchat.app */,
-				61F92EBA29C47C0FCC482F1F /* bitchatShareExtension.appex */,
-				C0DB1DE27F0AAB5092663E8E /* bitchatTests_iOS.xctest */,
-				03C57F452B55FD0FD8F51421 /* bitchatTests_macOS.xctest */,
+				96D0D41CA19EE5A772AA8434 /* Gap Mash.app */,
+				8F3A7C058C2C8E1A06C8CF8B /* Gap Mash.app */,
+				61F92EBA29C47C0FCC482F1F /* gapShareExtension.appex */,
+				C0DB1DE27F0AAB5092663E8E /* Gap Mash.xctest */,
+				03C57F452B55FD0FD8F51421 /* Gap Mash.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -207,9 +208,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0576A29205865664C0937536 /* bitchat_macOS */ = {
+		0576A29205865664C0937536 /* gap_macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA5644925338B8189B035657 /* Build configuration list for PBXNativeTarget "bitchat_macOS" */;
+			buildConfigurationList = DA5644925338B8189B035657 /* Build configuration list for PBXNativeTarget "gap_macOS" */;
 			buildPhases = (
 				137ABE739BF20ACDDF8CC605 /* Sources */,
 				0214973A876129753D39EB47 /* Resources */,
@@ -220,19 +221,19 @@
 			fileSystemSynchronizedGroups = (
 				A6E32C972E762EA70032EA8A /* bitchat */,
 			);
-			name = bitchat_macOS;
+			name = gap_macOS;
 			packageProductDependencies = (
 				B1D9136AA0083366353BFA2F /* P256K */,
 				A6E3E5712E7703760032EA8A /* BitLogger */,
 				A6E3EA802E7706A80032EA8A /* Tor */,
 			);
 			productName = bitchat_macOS;
-			productReference = 8F3A7C058C2C8E1A06C8CF8B /* bitchat.app */;
+			productReference = 8F3A7C058C2C8E1A06C8CF8B /* Gap Mash.app */;
 			productType = "com.apple.product-type.application";
 		};
-		47FF23248747DD7CB666CB91 /* bitchatTests_macOS */ = {
+		47FF23248747DD7CB666CB91 /* gapTests_macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1C27B5BA3DB46DDF0DBFEF62 /* Build configuration list for PBXNativeTarget "bitchatTests_macOS" */;
+			buildConfigurationList = 1C27B5BA3DB46DDF0DBFEF62 /* Build configuration list for PBXNativeTarget "gapTests_macOS" */;
 			buildPhases = (
 				5C22AA7B9ACC5A861445C769 /* Sources */,
 				C5E027A42ECCDFD700BD6012 /* Resources */,
@@ -245,27 +246,27 @@
 			fileSystemSynchronizedGroups = (
 				A6E32D412E762EAE0032EA8A /* bitchatTests */,
 			);
-			name = bitchatTests_macOS;
+			name = gapTests_macOS;
 			productName = bitchatTests_macOS;
-			productReference = 03C57F452B55FD0FD8F51421 /* bitchatTests_macOS.xctest */;
+			productReference = 03C57F452B55FD0FD8F51421 /* Gap Mash.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		57CA17A36A2532A6CFF367BB /* bitchatShareExtension */ = {
+		57CA17A36A2532A6CFF367BB /* gapShareExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E4EA6DC648DF55FF84032EB5 /* Build configuration list for PBXNativeTarget "bitchatShareExtension" */;
+			buildConfigurationList = E4EA6DC648DF55FF84032EB5 /* Build configuration list for PBXNativeTarget "gapShareExtension" */;
 			buildPhases = (
 				0A08E70F08F55FD5BA8C7EF3 /* Sources */,
 			);
 			buildRules = (
 			);
-			name = bitchatShareExtension;
+			name = gapShareExtension;
 			productName = bitchatShareExtension;
-			productReference = 61F92EBA29C47C0FCC482F1F /* bitchatShareExtension.appex */;
+			productReference = 61F92EBA29C47C0FCC482F1F /* gapShareExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		6CB97DF2EA57234CB3E563B8 /* bitchatTests_iOS */ = {
+		6CB97DF2EA57234CB3E563B8 /* gaptest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 38C4AF6313E5037F25CEF30B /* Build configuration list for PBXNativeTarget "bitchatTests_iOS" */;
+			buildConfigurationList = 38C4AF6313E5037F25CEF30B /* Build configuration list for PBXNativeTarget "gaptest" */;
 			buildPhases = (
 				865C8403EF02C089369A9FCB /* Sources */,
 				C5E027A72ECCDFE200BD6012 /* Resources */,
@@ -278,14 +279,14 @@
 			fileSystemSynchronizedGroups = (
 				A6E32D412E762EAE0032EA8A /* bitchatTests */,
 			);
-			name = bitchatTests_iOS;
+			name = gaptest;
 			productName = bitchatTests_iOS;
-			productReference = C0DB1DE27F0AAB5092663E8E /* bitchatTests_iOS.xctest */;
+			productReference = C0DB1DE27F0AAB5092663E8E /* Gap Mash.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		AF077EA0474EDEDE2C72716C /* bitchat_iOS */ = {
+		AF077EA0474EDEDE2C72716C /* gap_iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 53EADEF7546F94DDF82271B9 /* Build configuration list for PBXNativeTarget "bitchat_iOS" */;
+			buildConfigurationList = 53EADEF7546F94DDF82271B9 /* Build configuration list for PBXNativeTarget "gap_iOS" */;
 			buildPhases = (
 				4E49E34F00154C051AE90FED /* Sources */,
 				CD6E8F32BC38357473954F97 /* Resources */,
@@ -300,14 +301,14 @@
 			fileSystemSynchronizedGroups = (
 				A6E32C972E762EA70032EA8A /* bitchat */,
 			);
-			name = bitchat_iOS;
+			name = gap_iOS;
 			packageProductDependencies = (
 				4EB6BA1B8464F1EA38F4E286 /* P256K */,
 				A6E3E56F2E77036A0032EA8A /* BitLogger */,
 				A6E3EA7E2E7706720032EA8A /* Tor */,
 			);
 			productName = bitchat_iOS;
-			productReference = 96D0D41CA19EE5A772AA8434 /* bitchat.app */;
+			productReference = 96D0D41CA19EE5A772AA8434 /* Gap Mash.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -317,13 +318,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1640;
+				LastUpgradeCheck = 2620;
 			};
-			buildConfigurationList = 3EA424CBD51200895D361189 /* Build configuration list for PBXProject "bitchat" */;
-			developmentRegion = en;
+			buildConfigurationList = 3EA424CBD51200895D361189 /* Build configuration list for PBXProject "Gap Mash" */;
+			developmentRegion = fa;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
+				fa,
 				en,
 				es,
 				ar,
@@ -351,11 +353,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				57CA17A36A2532A6CFF367BB /* bitchatShareExtension */,
-				6CB97DF2EA57234CB3E563B8 /* bitchatTests_iOS */,
-				47FF23248747DD7CB666CB91 /* bitchatTests_macOS */,
-				AF077EA0474EDEDE2C72716C /* bitchat_iOS */,
-				0576A29205865664C0937536 /* bitchat_macOS */,
+				57CA17A36A2532A6CFF367BB /* gapShareExtension */,
+				6CB97DF2EA57234CB3E563B8 /* gaptest */,
+				47FF23248747DD7CB666CB91 /* gapTests_macOS */,
+				AF077EA0474EDEDE2C72716C /* gap_iOS */,
+				0576A29205865664C0937536 /* gap_macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -416,48 +418,23 @@
 /* Begin PBXTargetDependency section */
 		4AA8605DCAA64A45657EF0CA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0576A29205865664C0937536 /* bitchat_macOS */;
+			target = 0576A29205865664C0937536 /* gap_macOS */;
 			targetProxy = FF470234EF8C6BB8865B80B5 /* PBXContainerItemProxy */;
 		};
 		6EB655BA5DB11909C1DEC460 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 57CA17A36A2532A6CFF367BB /* bitchatShareExtension */;
+			target = 57CA17A36A2532A6CFF367BB /* gapShareExtension */;
 			targetProxy = E35E7AF9854A2E72452DD34F /* PBXContainerItemProxy */;
 		};
 		D8C09F21DB7DC06E8E672C21 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AF077EA0474EDEDE2C72716C /* bitchat_iOS */;
+			target = AF077EA0474EDEDE2C72716C /* gap_iOS */;
 			targetProxy = 96415D4F989854F908EAD303 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		077A5203074247CF8F766E2F /* Debug configuration for PBXNativeTarget "bitchatTests_iOS" */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
-			baseConfigurationReferenceRelativePath = Debug.xcconfig;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGNING_ALLOWED = YES;
-				CODE_SIGNING_REQUIRED = YES;
-				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
-				INFOPLIST_FILE = bitchatTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = "$(SWIFT_VERSION)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bitchat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/bitchat";
-			};
-			name = Debug;
-		};
-		0DACAA261446D178EDD30ECA /* Release configuration for PBXNativeTarget "bitchatTests_iOS" */ = {
+		077A5203074247CF8F766E2F /* Debug configuration for PBXNativeTarget "gaptest" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Release.xcconfig;
@@ -466,7 +443,7 @@
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				DEVELOPMENT_TEAM = KH9326B8TN;
 				INFOPLIST_FILE = bitchatTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -475,6 +452,37 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = chat.gap.kevahazaditests;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = chat.gap.kevahazadi.tests;
+				PRODUCT_NAME = "Gap Mash";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = "$(SWIFT_VERSION)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bitchat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/bitchat";
+			};
+			name = Debug;
+		};
+		0DACAA261446D178EDD30ECA /* Release configuration for PBXNativeTarget "gaptest" */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGNING_REQUIRED = YES;
+				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
+				DEVELOPMENT_TEAM = KH9326B8TN;
+				INFOPLIST_FILE = bitchatTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = chat.gap.kevahazaditests;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = chat.gap.kevahazadi.tests;
+				PRODUCT_NAME = "Gap Mash";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = "$(SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -482,7 +490,7 @@
 			};
 			name = Release;
 		};
-		147FDAE548082D5B921C6F0B /* Release configuration for PBXNativeTarget "bitchatTests_macOS" */ = {
+		147FDAE548082D5B921C6F0B /* Release configuration for PBXNativeTarget "gapTests_macOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Release.xcconfig;
@@ -493,7 +501,7 @@
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				DEVELOPMENT_TEAM = KH9326B8TN;
 				INFOPLIST_FILE = bitchatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -502,13 +510,16 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = "$(MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = chat.gap.kevahazadi.tests;
+				PRODUCT_MODULE_NAME = Gap;
+				PRODUCT_NAME = "Gap Mash";
 				SDKROOT = macosx;
 				SWIFT_VERSION = "$(SWIFT_VERSION)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bitchat.app/Contents/MacOS/bitchat";
 			};
 			name = Release;
 		};
-		3DCF45111852FB2AEBE05E31 /* Release configuration for PBXNativeTarget "bitchatShareExtension" */ = {
+		3DCF45111852FB2AEBE05E31 /* Release configuration for PBXNativeTarget "gapShareExtension" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Release.xcconfig;
@@ -518,7 +529,7 @@
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = bitchatShareExtension/bitchatShareExtension.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				DEVELOPMENT_TEAM = KH9326B8TN;
 				INFOPLIST_FILE = bitchatShareExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = bitchat;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
@@ -529,6 +540,7 @@
 				);
 				MARKETING_VERSION = "$(MARKETING_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).ShareExtension";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = chat.gap.kevahazadi.ShareExtension;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -539,10 +551,10 @@
 			};
 			name = Release;
 		};
-		702E7395723CADA4B830F4A9 /* Debug configuration for PBXNativeTarget "bitchat_iOS" */ = {
+		702E7395723CADA4B830F4A9 /* Debug configuration for PBXNativeTarget "gap_iOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
-			baseConfigurationReferenceRelativePath = Debug.xcconfig;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDebug;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
@@ -550,33 +562,37 @@
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_ENTITLEMENTS = bitchat/bitchat.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = KH9326B8TN;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = YES;
 				INFOPLIST_FILE = bitchat/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = bitchat;
+				INFOPLIST_KEY_CFBundleDisplayName = "Gap Mash";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				PRODUCT_NAME = bitchat;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = chat.gap.kevahazadi;
+				PRODUCT_NAME = "Gap Mash";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = "$(SWIFT_VERSION)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		7FA2BADBF3B325125030CAB1 /* Debug configuration for PBXNativeTarget "bitchatTests_macOS" */ = {
+		7FA2BADBF3B325125030CAB1 /* Debug configuration for PBXNativeTarget "gapTests_macOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
-			baseConfigurationReferenceRelativePath = Debug.xcconfig;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGNING_ALLOWED = YES;
@@ -584,7 +600,7 @@
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				DEVELOPMENT_TEAM = KH9326B8TN;
 				INFOPLIST_FILE = bitchatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -593,13 +609,16 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = "$(MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = chat.gap.kevahazadi.tests;
+				PRODUCT_MODULE_NAME = Gap;
+				PRODUCT_NAME = "Gap Mash";
 				SDKROOT = macosx;
 				SWIFT_VERSION = "$(SWIFT_VERSION)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bitchat.app/Contents/MacOS/bitchat";
 			};
 			name = Debug;
 		};
-		B36671AEACCBF92BE10852E9 /* Release configuration for PBXNativeTarget "bitchat_iOS" */ = {
+		B36671AEACCBF92BE10852E9 /* Release configuration for PBXNativeTarget "gap_iOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Release.xcconfig;
@@ -610,30 +629,34 @@
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_ENTITLEMENTS = bitchat/bitchat.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = KH9326B8TN;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = YES;
 				INFOPLIST_FILE = bitchat/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = bitchat;
+				INFOPLIST_KEY_CFBundleDisplayName = "Gap Mash";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				MARKETING_VERSION = 1.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				PRODUCT_NAME = bitchat;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = chat.gap.kevahazadi;
+				PRODUCT_NAME = "Gap Mash";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = "$(SWIFT_VERSION)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		BB044400A0F06B93F22D0D55 /* Release configuration for PBXNativeTarget "bitchat_macOS" */ = {
+		BB044400A0F06B93F22D0D55 /* Release configuration for PBXNativeTarget "gap_macOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Release.xcconfig;
@@ -647,9 +670,17 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = YES;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = YES;
+				ENABLE_RESOURCE_ACCESS_LOCATION = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				INFOPLIST_FILE = bitchat/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = bitchat;
+				INFOPLIST_KEY_CFBundleDisplayName = "Gap Mash";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -658,17 +689,20 @@
 				MACOSX_DEPLOYMENT_TARGET = "$(MACOSX_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = "$(MARKETING_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				PRODUCT_NAME = bitchat;
+				PRODUCT_NAME = "Gap Mash";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = macosx;
 				SWIFT_VERSION = "$(SWIFT_VERSION)";
 			};
 			name = Release;
 		};
-		BF0D85727BCB6E346962F419 /* Release configuration for PBXProject "bitchat" */ = {
+		BF0D85727BCB6E346962F419 /* Release configuration for PBXProject "Gap Mash" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -702,6 +736,7 @@
 				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = L3N5LHJD5Y;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -719,16 +754,17 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = "$(SWIFT_VERSION)";
 			};
 			name = Release;
 		};
-		CC79F65842D42034ACEE79B7 /* Debug configuration for PBXNativeTarget "bitchat_macOS" */ = {
+		CC79F65842D42034ACEE79B7 /* Debug configuration for PBXNativeTarget "gap_macOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
-			baseConfigurationReferenceRelativePath = Debug.xcconfig;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDebug;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
@@ -738,10 +774,18 @@
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				DEVELOPMENT_TEAM = KH9326B8TN;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = NO;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = YES;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = YES;
+				ENABLE_RESOURCE_ACCESS_LOCATION = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				INFOPLIST_FILE = bitchat/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = bitchat;
+				INFOPLIST_KEY_CFBundleDisplayName = "Gap Mash";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -750,17 +794,21 @@
 				MACOSX_DEPLOYMENT_TARGET = "$(MACOSX_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = "$(MARKETING_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				PRODUCT_NAME = bitchat;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = chat.gap.kevahazadi;
+				PRODUCT_NAME = "Gap Mash";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = macosx;
 				SWIFT_VERSION = "$(SWIFT_VERSION)";
 			};
 			name = Debug;
 		};
-		D8C5BF109BB2630752185FA0 /* Debug configuration for PBXProject "bitchat" */ = {
+		D8C5BF109BB2630752185FA0 /* Debug configuration for PBXProject "Gap Mash" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -794,6 +842,7 @@
 				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = L3N5LHJD5Y;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -818,23 +867,24 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = "$(SWIFT_VERSION)";
 			};
 			name = Debug;
 		};
-		DAC5E82049F8A97360BE63D6 /* Debug configuration for PBXNativeTarget "bitchatShareExtension" */ = {
+		DAC5E82049F8A97360BE63D6 /* Debug configuration for PBXNativeTarget "gapShareExtension" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
-			baseConfigurationReferenceRelativePath = Debug.xcconfig;
+			baseConfigurationReferenceRelativePath = Release.xcconfig;
 			buildSettings = {
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = bitchatShareExtension/bitchatShareExtension.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
-				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				DEVELOPMENT_TEAM = KH9326B8TN;
 				INFOPLIST_FILE = bitchatShareExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = bitchat;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
@@ -845,6 +895,7 @@
 				);
 				MARKETING_VERSION = "$(MARKETING_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).ShareExtension";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = chat.gap.kevahazadi.ShareExtension;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -858,51 +909,51 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1C27B5BA3DB46DDF0DBFEF62 /* Build configuration list for PBXNativeTarget "bitchatTests_macOS" */ = {
+		1C27B5BA3DB46DDF0DBFEF62 /* Build configuration list for PBXNativeTarget "gapTests_macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7FA2BADBF3B325125030CAB1 /* Debug configuration for PBXNativeTarget "bitchatTests_macOS" */,
-				147FDAE548082D5B921C6F0B /* Release configuration for PBXNativeTarget "bitchatTests_macOS" */,
+				7FA2BADBF3B325125030CAB1 /* Debug configuration for PBXNativeTarget "gapTests_macOS" */,
+				147FDAE548082D5B921C6F0B /* Release configuration for PBXNativeTarget "gapTests_macOS" */,
 			);
 			defaultConfigurationName = Debug;
 		};
-		38C4AF6313E5037F25CEF30B /* Build configuration list for PBXNativeTarget "bitchatTests_iOS" */ = {
+		38C4AF6313E5037F25CEF30B /* Build configuration list for PBXNativeTarget "gaptest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				077A5203074247CF8F766E2F /* Debug configuration for PBXNativeTarget "bitchatTests_iOS" */,
-				0DACAA261446D178EDD30ECA /* Release configuration for PBXNativeTarget "bitchatTests_iOS" */,
+				077A5203074247CF8F766E2F /* Debug configuration for PBXNativeTarget "gaptest" */,
+				0DACAA261446D178EDD30ECA /* Release configuration for PBXNativeTarget "gaptest" */,
 			);
 			defaultConfigurationName = Debug;
 		};
-		3EA424CBD51200895D361189 /* Build configuration list for PBXProject "bitchat" */ = {
+		3EA424CBD51200895D361189 /* Build configuration list for PBXProject "Gap Mash" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D8C5BF109BB2630752185FA0 /* Debug configuration for PBXProject "bitchat" */,
-				BF0D85727BCB6E346962F419 /* Release configuration for PBXProject "bitchat" */,
+				D8C5BF109BB2630752185FA0 /* Debug configuration for PBXProject "Gap Mash" */,
+				BF0D85727BCB6E346962F419 /* Release configuration for PBXProject "Gap Mash" */,
 			);
 			defaultConfigurationName = Debug;
 		};
-		53EADEF7546F94DDF82271B9 /* Build configuration list for PBXNativeTarget "bitchat_iOS" */ = {
+		53EADEF7546F94DDF82271B9 /* Build configuration list for PBXNativeTarget "gap_iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				702E7395723CADA4B830F4A9 /* Debug configuration for PBXNativeTarget "bitchat_iOS" */,
-				B36671AEACCBF92BE10852E9 /* Release configuration for PBXNativeTarget "bitchat_iOS" */,
+				702E7395723CADA4B830F4A9 /* Debug configuration for PBXNativeTarget "gap_iOS" */,
+				B36671AEACCBF92BE10852E9 /* Release configuration for PBXNativeTarget "gap_iOS" */,
 			);
 			defaultConfigurationName = Debug;
 		};
-		DA5644925338B8189B035657 /* Build configuration list for PBXNativeTarget "bitchat_macOS" */ = {
+		DA5644925338B8189B035657 /* Build configuration list for PBXNativeTarget "gap_macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CC79F65842D42034ACEE79B7 /* Debug configuration for PBXNativeTarget "bitchat_macOS" */,
-				BB044400A0F06B93F22D0D55 /* Release configuration for PBXNativeTarget "bitchat_macOS" */,
+				CC79F65842D42034ACEE79B7 /* Debug configuration for PBXNativeTarget "gap_macOS" */,
+				BB044400A0F06B93F22D0D55 /* Release configuration for PBXNativeTarget "gap_macOS" */,
 			);
 			defaultConfigurationName = Debug;
 		};
-		E4EA6DC648DF55FF84032EB5 /* Build configuration list for PBXNativeTarget "bitchatShareExtension" */ = {
+		E4EA6DC648DF55FF84032EB5 /* Build configuration list for PBXNativeTarget "gapShareExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DAC5E82049F8A97360BE63D6 /* Debug configuration for PBXNativeTarget "bitchatShareExtension" */,
-				3DCF45111852FB2AEBE05E31 /* Release configuration for PBXNativeTarget "bitchatShareExtension" */,
+				DAC5E82049F8A97360BE63D6 /* Debug configuration for PBXNativeTarget "gapShareExtension" */,
+				3DCF45111852FB2AEBE05E31 /* Release configuration for PBXNativeTarget "gapShareExtension" */,
 			);
 			defaultConfigurationName = Debug;
 		};
