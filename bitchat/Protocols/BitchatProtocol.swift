@@ -108,6 +108,8 @@ enum NoisePayloadType: UInt8 {
     // Verification (QR-based OOB binding)
     case verifyChallenge = 0x10     // Verification challenge
     case verifyResponse  = 0x11     // Verification response
+    // File transfer (encrypted private files)
+    case fileTransfer = 0x20        // Binary file/audio/image payloads
     
     var description: String {
         switch self {
@@ -116,6 +118,7 @@ enum NoisePayloadType: UInt8 {
         case .delivered: return "delivered"
         case .verifyChallenge: return "verifyChallenge"
         case .verifyResponse: return "verifyResponse"
+        case .fileTransfer: return "fileTransfer"
         }
     }
 }

@@ -141,15 +141,15 @@ struct BinaryProtocol {
     }
     
     // Encode BitchatPacket to binary format
-    static func encode(_ packet: BitchatPacket, padding: Bool = true) -> Data? {
+    static func encode(_ packet: BitchatPacket, padding: Bool = true, compress: Bool = true) -> Data? {
         let version = packet.version
         guard version == 1 || version == 2 else { return nil }
 
-        // Try to compress payload when beneficial, keeping original size for later decoding
+        // Try to compress payload when beneficial and requested
         var payload = packet.payload
         var isCompressed = false
         var originalPayloadSize: Int?
-        if CompressionUtil.shouldCompress(payload) {
+        if compress && CompressionUtil.shouldCompress(payload) {
             // Only compress when we can represent the original length in the outbound frame
             let maxRepresentable = version == 2 ? Int(UInt32.max) : Int(UInt16.max)
             if payload.count <= maxRepresentable,

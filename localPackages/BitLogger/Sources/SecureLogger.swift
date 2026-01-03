@@ -123,7 +123,9 @@ public extension SecureLogger {
     
     static func debug(_ message: @autoclosure () -> String, category: OSLog = .noise,
                       file: String = #file, line: Int = #line, function: String = #function) {
+        #if DEBUG
         log(message(), category: category, level: .debug, file: file, line: line, function: function)
+        #endif
     }
     
     static func info(_ message: @autoclosure () -> String, category: OSLog = .noise,

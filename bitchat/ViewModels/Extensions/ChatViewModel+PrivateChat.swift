@@ -319,6 +319,45 @@ extension ChatViewModel {
         }
 
         let targetPeer = selectedPrivateChatPeer
+        
+        // Fallback Logic: Check reachability
+        let targetID = targetPeer ?? PeerID(str: "")
+        let isReachable = meshService.isPeerReachable(targetID)
+        if !isReachable && targetPeer != nil {
+             // Use Blossom Upload Fallback
+             Task.detached(priority: .userInitiated) { [weak self] in
+                 guard let self = self else { return }
+                 do {
+                     SecureLogger.info("🌍 Peer unreachable via mesh. Uploading voice note to Blossom.", category: .session)
+                     let data = try Data(contentsOf: url)
+                     let encrypted = try EncryptionUtils.encrypt(data)
+                     
+                     let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+                     try encrypted.data.write(to: tempURL)
+                     
+                     let uploadURL = try await BlossomService.shared.uploadFile(at: tempURL, mimeType: "application/octet-stream")
+                     try? FileManager.default.removeItem(at: tempURL)
+                     
+                     let keyHex = EncryptionUtils.hexString(from: encrypted.key)
+                     let ivHex = EncryptionUtils.hexString(from: encrypted.iv)
+                     let secureURLString = "\(uploadURL.absoluteString)#decryptionKey=\(keyHex)&iv=\(ivHex)"
+                     
+                     // Send as text message with prefix
+                     let content = "[voice] \(secureURLString)"
+                     
+                     await MainActor.run {
+                         if let peerID = targetPeer {
+                            self.sendPrivateMessage(content, to: peerID)
+                            SecureLogger.info("✅ Sent voice note via Blossom/Nostr: \(secureURLString)", category: .session)
+                         }
+                     }
+                 } catch {
+                     SecureLogger.error("Blossom voice note upload failed: \(error)", category: .session)
+                 }
+             }
+             return
+        }
+        
         let message = enqueueMediaMessage(content: "[voice] \(url.lastPathComponent)", targetPeer: targetPeer)
         let messageID = message.id
         let transferId = makeTransferID(messageID: messageID)
@@ -374,6 +413,57 @@ extension ChatViewModel {
         }
 
         let targetPeer = selectedPrivateChatPeer
+
+        // Fallback Logic: Check reachability
+        let targetID = targetPeer ?? PeerID(str: "")
+        let isReachable = meshService.isPeerReachable(targetID)
+        if !isReachable && targetPeer != nil {
+             // Use Blossom Upload Fallback
+             Task.detached(priority: .userInitiated) { [weak self] in
+                 guard let self = self else { return }
+                 do {
+                     SecureLogger.info("🌍 Peer unreachable via mesh. Uploading image to Blossom.", category: .session)
+                     
+                     // Concurrency: Process image and capture result locally before async work
+                     // Warning fix: captured var 'processedURL' in concurrently-executing code
+                     let outputURL = try ImageUtils.processImage(at: sourceURL)
+                     let tempProcessedURL = outputURL 
+                     
+                     do {
+                         let data = try Data(contentsOf: outputURL)
+                         
+                         let encrypted = try EncryptionUtils.encrypt(data)
+                         
+                         let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+                         try encrypted.data.write(to: tempURL)
+                         
+                         let uploadURL = try await BlossomService.shared.uploadFile(at: tempURL, mimeType: "application/octet-stream")
+                         try? FileManager.default.removeItem(at: tempURL)
+                         
+                         let keyHex = EncryptionUtils.hexString(from: encrypted.key)
+                         let ivHex = EncryptionUtils.hexString(from: encrypted.iv)
+                         let secureURLString = "\(uploadURL.absoluteString)#decryptionKey=\(keyHex)&iv=\(ivHex)"
+                         
+                         // Send as text message with prefix
+                         let content = "[image] \(secureURLString)"
+                         
+                         await MainActor.run {
+                             if let peerID = targetPeer {
+                                self.sendPrivateMessage(content, to: peerID)
+                                SecureLogger.info("✅ Sent image via Blossom/Nostr: \(secureURLString)", category: .session)
+                             }
+                             try? FileManager.default.removeItem(at: tempProcessedURL)
+                         }
+                     } catch {
+                         try? FileManager.default.removeItem(at: tempProcessedURL)
+                         throw error
+                     }
+                 } catch {
+                     SecureLogger.error("Blossom image upload failed: \(error)", category: .session)
+                 }
+             }
+             return
+        }
 
         Task.detached(priority: .userInitiated) { [weak self] in
             guard let self = self else { return }

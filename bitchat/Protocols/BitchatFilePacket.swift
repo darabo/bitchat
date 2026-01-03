@@ -8,6 +8,7 @@
 
 import Foundation
 import BitLogger
+import CryptoKit
 
 /// TLV payload for Bluetooth mesh file transfers (voice notes, images, generic files).
 /// Mirrors the Android client specification to ensure cross-platform interoperability.
@@ -16,6 +17,7 @@ struct BitchatFilePacket {
     var fileSize: UInt64?
     var mimeType: String?
     var content: Data
+    var sha256: String?  // Computed SHA256 hash for integrity verification
 
     /// Canonical TLV tags defined by the Android implementation.
     private enum TLVType: UInt8 {
@@ -23,6 +25,7 @@ struct BitchatFilePacket {
         case fileSize = 0x02
         case mimeType = 0x03
         case content = 0x04
+        case sha256 = 0x05  // Optional integrity verification
     }
 
     /// Encodes the packet using v2 canonical TLVs (4-byte FILE_SIZE, 4-byte CONTENT length).
@@ -60,6 +63,13 @@ struct BitchatFilePacket {
         encoded.append(TLVType.content.rawValue)
         appendBE(UInt32(content.count), into: &encoded)
         encoded.append(content)
+        
+        // SHA256
+        let digest = SHA256.hash(data: content)
+        let sha256Data = Data(digest)
+        encoded.append(TLVType.sha256.rawValue)
+        appendBE(UInt16(sha256Data.count), into: &encoded)
+        encoded.append(sha256Data)
 
         return encoded
     }
@@ -73,6 +83,7 @@ struct BitchatFilePacket {
         var fileSize: UInt64?
         var mimeType: String?
         var content = Data()
+        var providedHash: String?
 
         while cursor < end {
             let typeRaw = data[cursor]
@@ -138,6 +149,9 @@ struct BitchatFilePacket {
                     return nil
                 }
                 content.append(contentsOf: value)
+            case .sha256:
+                providedHash = value.compactMap { String(format: "%02x", $0) }.joined()
+                continue
             case nil:
                 continue
             }
@@ -145,11 +159,22 @@ struct BitchatFilePacket {
 
         guard !content.isEmpty else { return nil }
         guard FileTransferLimits.isValidPayload(content.count) else { return nil }
+        
+        // Compute SHA256 of received content for integrity verification
+        let computedHash = SHA256.hash(data: content).compactMap { String(format: "%02x", $0) }.joined()
+        
+        // Verify integrity if provided
+        if let provided = providedHash, provided != computedHash {
+            SecureLogger.error("❌ Integrity check failed! Expected=\(provided), Computed=\(computedHash)", category: .session)
+            return nil
+        }
+        
         return BitchatFilePacket(
             fileName: fileName,
             fileSize: fileSize ?? UInt64(content.count),
             mimeType: mimeType,
-            content: content
+            content: content,
+            sha256: computedHash
         )
     }
 }

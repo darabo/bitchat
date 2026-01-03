@@ -3153,11 +3153,129 @@ final class ChatViewModel: ObservableObject, BitchatDelegate, CommandContextProv
                         updateEncryptionStatus(for: peerID)
                     }
                 }
+            case .fileTransfer:
+                // Handle encrypted private file transfers (audio, images, files)
+                guard let filePacket = BitchatFilePacket.decode(payload) else {
+                    SecureLogger.error("❌ Failed to decode private file transfer payload", category: .session)
+                    return
+                }
+                
+                // Validate file size
+                guard FileTransferLimits.isValidPayload(filePacket.content.count) else {
+                    SecureLogger.warning("🚫 Dropping private file transfer exceeding size cap (\(filePacket.content.count) bytes)", category: .security)
+                    return
+                }
+                
+                // Validate MIME type
+                guard let mime = MimeType(filePacket.mimeType), mime.isAllowed else {
+                    SecureLogger.warning("🚫 MIME REJECT: '\(filePacket.mimeType ?? "<empty>")' not supported", category: .security)
+                    return
+                }
+                
+                // Validate content matches declared MIME type (magic byte check)
+                guard mime.matches(data: filePacket.content) else {
+                    SecureLogger.warning("🚫 MAGIC REJECT: MIME '\(mime)' content mismatch", category: .security)
+                    return
+                }
+                
+                // Determine subdirectory based on file type
+                let subdirectory: String
+                switch mime.category {
+                case .audio:
+                    subdirectory = "voicenotes/incoming"
+                case .image:
+                    subdirectory = "images/incoming"
+                case .file:
+                    subdirectory = "files/incoming"
+                }
+                
+                // Save the file inline (saveIncomingFile is private to BLEService)
+                let destination: URL
+                do {
+                    let base = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+                        .appendingPathComponent(subdirectory, isDirectory: true)
+                    try FileManager.default.createDirectory(at: base, withIntermediateDirectories: true, attributes: nil)
+                    
+                    // Create a safe filename
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
+                    let timestamp = dateFormatter.string(from: Date())
+                    let defaultName = "\(mime.category.rawValue)_\(timestamp)"
+                    
+                    var fileName = filePacket.fileName ?? defaultName
+                    // Sanitize filename - remove path components and invalid characters
+                    let safeCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "._-"))
+                    fileName = fileName.components(separatedBy: "/").last ?? fileName
+                    fileName = fileName.components(separatedBy: "\\").last ?? fileName
+                    fileName = String(fileName.unicodeScalars.filter { safeCharacters.contains($0) })
+                    if fileName.isEmpty {
+                        fileName = defaultName
+                    }
+                    // Ensure extension
+                    if !fileName.contains(".") {
+                        fileName += ".\(mime.defaultExtension)"
+                    }
+                    
+                    // Ensure uniqueness
+                    var finalName = fileName
+                    var counter = 1
+                    while FileManager.default.fileExists(atPath: base.appendingPathComponent(finalName).path) {
+                        let nameWithoutExt = (fileName as NSString).deletingPathExtension
+                        let ext = (fileName as NSString).pathExtension
+                        finalName = "\(nameWithoutExt)_\(counter).\(ext.isEmpty ? "dat" : ext)"
+                        counter += 1
+                    }
+                    
+                    destination = base.appendingPathComponent(finalName)
+                    try filePacket.content.write(to: destination, options: .atomic)
+                } catch {
+                    SecureLogger.error("❌ Failed to save incoming private file: \(error)", category: .session)
+                    return
+                }
+                
+                // Create message marker
+                let marker: String
+                let fileName = destination.lastPathComponent
+                switch mime.category {
+                case .audio:
+                    marker = "[voice] \(fileName)"
+                case .image:
+                    marker = "[image] \(fileName)"
+                case .file:
+                    marker = "[file] \(fileName)"
+                }
+                
+                let senderName = unifiedPeerService.getPeer(by: peerID)?.nickname ?? "Unknown"
+                let msg = BitchatMessage(
+                    sender: senderName,
+                    content: marker,
+                    timestamp: timestamp,
+                    isRelay: false,
+                    originalSender: nil,
+                    isPrivate: true,
+                    recipientNickname: nickname,
+                    senderPeerID: peerID
+                )
+                SecureLogger.debug("📁 Received private file from \(senderName): \(marker)", category: .session)
+                handlePrivateMessage(msg)
             }
         }
     }
 
     func didReceivePublicMessage(from peerID: PeerID, nickname: String, content: String, timestamp: Date, messageID: String?) {
+        // Filter out raw Geohash/Nostr JSON events to prevent them from appearing in chat
+        // Robust check: any message looking like a Nostr event JSON (contains "kind": and "pubkey":)
+        // Also keep legacy check for "a": (avatar) or "g": (geohash) just in case
+        if content.contains("{") && (
+            (content.contains("\"kind\":") && content.contains("\"pubkey\":")) || // Standard Nostr event
+            (content.contains("\"a\":") || content.contains("\"g\":")) // Legacy shorthand or specific fields
+        ) {
+            SecureLogger.debug("🌍 Intercepted Geohash JSON from \(nickname) (filtering from chat)", category: .session)
+            // Parse the Nostr event JSON and update participant tracker
+            handleMeshGeohashEvent(content, nickname: nickname)
+            return
+        }
+
         Task { @MainActor in
             let normalized = content.trimmingCharacters(in: .whitespacesAndNewlines)
             let publicMentions = parseMentions(from: normalized)
@@ -3176,6 +3294,58 @@ final class ChatViewModel: ObservableObject, BitchatDelegate, CommandContextProv
             handlePublicMessage(msg)
             checkForMentions(msg)
             sendHapticFeedback(for: msg)
+        }
+    }
+
+    /// Handle mesh-received geohash events (Nostr event JSON broadcast by Android via BLE mesh).
+    /// Parses the event to extract pubkey and geohash, then updates the participant tracker.
+    private func handleMeshGeohashEvent(_ json: String, nickname: String) {
+        // Extract the JSON portion from the content (may be prefixed with channel like "#geo:text ")
+        let jsonContent: String
+        if let jsonStart = json.firstIndex(of: "{") {
+            jsonContent = String(json[jsonStart...])
+        } else {
+            SecureLogger.debug("🌍 No JSON found in mesh geohash content", category: .session)
+            return
+        }
+        
+        guard let data = jsonContent.data(using: .utf8) else {
+            SecureLogger.debug("🌍 Could not convert mesh geohash to data", category: .session)
+            return
+        }
+        
+        // Try to decode as NostrEvent
+        do {
+            let event = try JSONDecoder().decode(NostrEvent.self, from: data)
+            
+            // Extract geohash from tags (look for ["g", "geohash"])
+            let geohash = event.tags.first(where: { $0.first == "g" && $0.count >= 2 })?[1]
+            
+            // Extract nickname from tags if available (look for ["n", "nickname"])
+            let eventNickname = event.tags.first(where: { $0.first == "n" && $0.count >= 2 })?[1]
+            
+            // Cache nickname if present
+            if let nick = eventNickname?.trimmingCharacters(in: .whitespacesAndNewlines), !nick.isEmpty {
+                geoNicknames[event.pubkey.lowercased()] = nick
+            }
+            
+            // Store mapping for geohash participants
+            nostrKeyMapping[PeerID(nostr_: event.pubkey)] = event.pubkey
+            nostrKeyMapping[PeerID(nostr: event.pubkey)] = event.pubkey
+            
+            // Record participant
+            if let gh = geohash {
+                participantTracker.recordParticipant(pubkeyHex: event.pubkey, geohash: gh)
+                SecureLogger.debug("🌍 Recorded mesh geohash participant: \(event.pubkey.prefix(8))... in \(gh)", category: .session)
+            } else {
+                // If no geohash tag, use current geohash if we're on a location channel
+                if let currentGh = currentGeohash {
+                    participantTracker.recordParticipant(pubkeyHex: event.pubkey, geohash: currentGh)
+                    SecureLogger.debug("🌍 Recorded mesh geohash participant: \(event.pubkey.prefix(8))... in current \(currentGh)", category: .session)
+                }
+            }
+        } catch {
+            SecureLogger.debug("🌍 Could not decode mesh geohash event: \(error.localizedDescription)", category: .session)
         }
     }
 
@@ -3322,7 +3492,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate, CommandContextProv
             // Clean up stale unread peer IDs whenever peer list updates
             self.cleanupStaleUnreadPeerIDs()
             
-            // Smart notification logic for "bitchatters nearby"
+            // Smart notification logic for "gapchatters nearby"
             let meshPeers = peers.filter { peerID in
                 self.meshService.isPeerConnected(peerID) || self.meshService.isPeerReachable(peerID)
             }
@@ -3341,7 +3511,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate, CommandContextProv
                     self.recentlySeenPeers.formUnion(newPeers)
                     NotificationService.shared.sendNetworkAvailableNotification(peerCount: meshPeers.count)
                     SecureLogger.info(
-                        "👥 Sent bitchatters nearby notification for \(meshPeers.count) mesh peers (new: \(newPeers.count))",
+                        "👥 Sent gapchatters nearby notification for \(meshPeers.count) mesh peers (new: \(newPeers.count))",
                         category: .session
                     )
                     self.scheduleNetworkResetTimer()

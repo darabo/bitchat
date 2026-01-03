@@ -17,7 +17,8 @@ final class BLEService: NSObject {
     // MARK: - Constants
     
     #if DEBUG
-    static let serviceUUID = CBUUID(string: "F47B5E2D-4A9E-4C5A-9B3F-8E1D2C3A4B5A") // testnet
+    // Temporarily using Mainnet UUID to match Android Release build for testing
+    static let serviceUUID = CBUUID(string: "F47B5E2D-4A9E-4C5A-9B3F-8E1D2C3A4B5C") // mainnet
     #else
     static let serviceUUID = CBUUID(string: "F47B5E2D-4A9E-4C5A-9B3F-8E1D2C3A4B5C") // mainnet
     #endif
@@ -1559,12 +1560,13 @@ extension BLEService: CBCentralManagerDelegate {
         let allowDuplicates = true  // macOS doesn't have background restrictions
         #endif
         
+        
+        SecureLogger.info("🔍 BLE Scanning started for Service UUID: \(BLEService.serviceUUID.uuidString) (AllowDuplicates: \(allowDuplicates))", category: .session)
+        
         central.scanForPeripherals(
                 withServices: [BLEService.serviceUUID],
             options: [CBCentralManagerScanOptionAllowDuplicatesKey: allowDuplicates]
         )
-        
-        // Started BLE scanning
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
@@ -2126,7 +2128,7 @@ extension BLEService: CBPeripheralManagerDelegate {
             service.characteristics = [characteristic!]
             
             // Add service (advertising will start in didAdd delegate)
-            SecureLogger.debug("🔧 Adding BLE service...", category: .session)
+            SecureLogger.info("🔧 Adding BLE service: \(BLEService.serviceUUID.uuidString)", category: .session)
             peripheral.add(service)
         }
     }
@@ -2824,7 +2826,7 @@ extension BLEService {
             let handshakeData = try noiseService.initiateHandshake(with: peerID)
             
             // Send handshake init
-            var packet = BitchatPacket(
+            let packet = BitchatPacket(
                 type: MessageType.noiseHandshake.rawValue,
                 senderID: myPeerIDData,
                 recipientID: Data(hexString: peerID.id),
@@ -3059,8 +3061,17 @@ extension BLEService {
             }
         }
 
+        // Schedule fragments with batch pausing to prevent BLE buffer overflow
+        // Pause 150ms every 5 fragments to let BLE buffers drain (matches Android)
+        let batchSize = 5
+        let batchPauseMs = 150
+        
         for (workItem, index) in scheduledItems {
-            let delayMs = index * perFragMs
+            // Calculate batch pauses: add 150ms for each complete batch before this fragment
+            let completeBatches = index / batchSize
+            let batchPauseDelayMs = completeBatches * batchPauseMs
+            
+            let delayMs = (index * perFragMs) + batchPauseDelayMs
             messageQueue.asyncAfter(deadline: .now() + .milliseconds(delayMs), execute: workItem)
         }
     }
@@ -3683,7 +3694,7 @@ extension BLEService {
             do {
                 if let response = try noiseService.processHandshakeMessage(from: peerID, message: packet.payload) {
                     // Send response
-                    var responsePacket = BitchatPacket(
+                    let responsePacket = BitchatPacket(
                         type: MessageType.noiseHandshake.rawValue,
                         senderID: myPeerIDData,
                         recipientID: Data(hexString: peerID.id),
@@ -3758,6 +3769,12 @@ extension BLEService {
                 let ts = Date(timeIntervalSince1970: Double(packet.timestamp) / 1000)
                 notifyUI { [weak self] in
                     self?.delegate?.didReceiveNoisePayload(from: peerID, type: .verifyResponse, payload: Data(payloadData), timestamp: ts)
+                }
+            case .fileTransfer:
+                SecureLogger.debug("📁 Received encrypted file transfer from \(peerID), payload size: \(payloadData.count) bytes")
+                let ts = Date(timeIntervalSince1970: Double(packet.timestamp) / 1000)
+                notifyUI { [weak self] in
+                    self?.delegate?.didReceiveNoisePayload(from: peerID, type: .fileTransfer, payload: Data(payloadData), timestamp: ts)
                 }
             case .none:
                 SecureLogger.warning("⚠️ Unknown noise payload type: \(payloadType)")

@@ -9,6 +9,147 @@
 import SwiftUI
 #if os(iOS)
 import UIKit
+
+// MARK: - Hold-to-Record Button (UIKit)
+// Uses direct touch handling to bypass iOS sheet gesture arbitration
+struct HoldToRecordButton: UIViewRepresentable {
+    let tintColor: Color
+    var onStart: () -> Void
+    var onEnd: () -> Void
+    var onCancel: () -> Void = {}
+
+    func makeUIView(context: Context) -> TouchTrackingView {
+        let touchView = TouchTrackingView()
+        touchView.coordinator = context.coordinator
+        
+        // Create the mic button/image view
+        let button = UIButton(type: .custom)
+        let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
+        let uiImage = UIImage(systemName: "mic.circle.fill", withConfiguration: config)
+        button.setImage(uiImage, for: .normal)
+        button.tintColor = UIColor(tintColor)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.isUserInteractionEnabled = false // Let the container handle touches
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        touchView.addSubview(button)
+        touchView.button = button
+        NSLayoutConstraint.activate([
+            button.topAnchor.constraint(equalTo: touchView.topAnchor),
+            button.bottomAnchor.constraint(equalTo: touchView.bottomAnchor),
+            button.leadingAnchor.constraint(equalTo: touchView.leadingAnchor),
+            button.trailingAnchor.constraint(equalTo: touchView.trailingAnchor)
+        ])
+        
+        return touchView
+    }
+
+    func updateUIView(_ uiView: TouchTrackingView, context: Context) {
+        uiView.button?.tintColor = UIColor(tintColor)
+        context.coordinator.parent = self
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+
+    class Coordinator: NSObject {
+        var parent: HoldToRecordButton
+        var hasStarted = false
+        var startTime: Date?
+        var startWorkItem: DispatchWorkItem?
+
+        init(parent: HoldToRecordButton) {
+            self.parent = parent
+        }
+        
+        func touchBegan() {
+            print("🎤 HoldToRecordButton: Touch BEGAN")
+            guard !hasStarted else { return }
+            
+            // Cancel any pending start from a previous touch
+            startWorkItem?.cancel()
+            
+            // Delay start slightly to let system gestures settle
+            // This prevents the common pattern where touch begins then immediately cancels
+            let workItem = DispatchWorkItem { [weak self] in
+                guard let self = self else { return }
+                guard !self.hasStarted else { return }
+                self.hasStarted = true
+                self.startTime = Date()
+                print("🎤 HoldToRecordButton: Recording STARTED (after delay)")
+                self.parent.onStart()
+            }
+            startWorkItem = workItem
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15, execute: workItem)
+        }
+        
+        func touchEnded() {
+            print("🎤 HoldToRecordButton: Touch ENDED")
+            startWorkItem?.cancel()
+            startWorkItem = nil
+            
+            guard hasStarted else { return }
+            hasStarted = false
+            startTime = nil
+            parent.onEnd()
+        }
+        
+        func touchCancelled() {
+            print("🎤 HoldToRecordButton: Touch CANCELLED")
+            startWorkItem?.cancel()
+            startWorkItem = nil
+            
+            guard hasStarted else { return }
+            
+            // Only call onCancel if we've been recording for a meaningful duration
+            // This prevents accidental cancels from system gesture interference
+            let recordingDuration = startTime.map { Date().timeIntervalSince($0) } ?? 0
+            if recordingDuration > 0.3 {
+                print("🎤 HoldToRecordButton: Cancel after \(recordingDuration)s of recording")
+                hasStarted = false
+                startTime = nil
+                parent.onCancel()
+            } else {
+                // Just reset state, don't cancel the recording
+                print("🎤 HoldToRecordButton: Ignoring short cancel (\(recordingDuration)s)")
+                hasStarted = false
+                startTime = nil
+            }
+        }
+    }
+    
+    // Custom UIView that directly handles touches without gesture recognizers
+    class TouchTrackingView: UIView {
+        weak var coordinator: Coordinator?
+        weak var button: UIButton?
+        
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            self.isMultipleTouchEnabled = false
+            self.isExclusiveTouch = true
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            super.touchesBegan(touches, with: event)
+            coordinator?.touchBegan()
+        }
+        
+        override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+            super.touchesEnded(touches, with: event)
+            coordinator?.touchEnded()
+        }
+        
+        override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+            super.touchesCancelled(touches, with: event)
+            coordinator?.touchCancelled()
+        }
+    }
+}
 #endif
 #if os(macOS)
 import AppKit
@@ -115,9 +256,9 @@ struct ContentView: View {
     private var peopleSheetActiveCount: Int {
         switch locationManager.selectedChannel {
         case .mesh:
-            return viewModel.allPeers.filter { $0.peerID != viewModel.meshService.myPeerID }.count
+            return viewModel.allPeers.filter { $0.peerID != viewModel.meshService.myPeerID }.count + 1
         case .location:
-            return viewModel.visibleGeohashPeople().count
+            return viewModel.visibleGeohashPeople().count + 1
         }
     }
     
@@ -150,13 +291,10 @@ struct ContentView: View {
 
             Divider()
 
-            GeometryReader { geometry in
-                VStack(spacing: 0) {
-                    messagesView(privatePeer: nil, isAtBottom: $isAtBottomPublic)
-                        .background(backgroundColor)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-                .frame(width: geometry.size.width, height: geometry.size.height)
+            VStack(spacing: 0) {
+                messagesView(privatePeer: nil, isAtBottom: $isAtBottomPublic)
+                    .background(backgroundColor)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
 
             Divider()
@@ -1201,7 +1339,7 @@ struct ContentView: View {
         case .location:
             let n = viewModel.geohashPeople.count
             let standardGreen = (colorScheme == .dark) ? Color.green : Color(red: 0, green: 0.5, blue: 0)
-            return (n, n > 0 ? standardGreen : Color.secondary)
+            return (n + 1, n > 0 ? standardGreen : Color.secondary)
         case .mesh:
             let counts = viewModel.allPeers.reduce(into: (others: 0, mesh: 0)) { counts, peer in
                 guard peer.peerID != viewModel.meshService.myPeerID else { return }
@@ -1210,14 +1348,14 @@ struct ContentView: View {
             }
             let meshBlue = Color(hue: 0.60, saturation: 0.85, brightness: 0.82)
             let color: Color = counts.mesh > 0 ? meshBlue : Color.secondary
-            return (counts.others, color)
+            return (counts.others + 1, color)
         }
     }
 
     
     private var mainHeaderView: some View {
         HStack(spacing: 0) {
-            Text(verbatim: "Gap/")
+            Text(verbatim: "Gap Mesh/")
                 .font(.bitchatSystem(size: 18, weight: .medium, design: .monospaced))
                 .foregroundColor(textColor)
                 .onTapGesture(count: 3) {
@@ -1824,21 +1962,28 @@ private extension ContentView {
     private var micButtonView: some View {
         let tint = (isRecordingVoiceNote || isPreparingVoiceNote) ? Color.red : composerAccentColor
 
+        #if os(iOS)
+        return HoldToRecordButton(
+            tintColor: tint,
+            onStart: { startVoiceRecording() },
+            onEnd: { finishVoiceRecording(send: true) },
+            onCancel: { finishVoiceRecording(send: false) }
+        )
+        .frame(width: 36, height: 36)
+        .accessibilityLabel(String(localized: "content.accessibility.hold_to_record"))
+        #else
         return Image(systemName: "mic.circle.fill")
             .font(.bitchatSystem(size: 24))
             .foregroundColor(tint)
             .frame(width: 36, height: 36)
             .contentShape(Circle())
-            .overlay(
-                Color.clear
-                    .contentShape(Circle())
-                    .gesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged { _ in startVoiceRecording() }
-                            .onEnded { _ in finishVoiceRecording(send: true) }
-                    )
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in startVoiceRecording() }
+                    .onEnded { _ in finishVoiceRecording(send: true) }
             )
             .accessibilityLabel(String(localized: "content.accessibility.hold_to_record"))
+        #endif
     }
 
     private func sendButtonView(enabled: Bool) -> some View {
@@ -1876,6 +2021,8 @@ private extension ContentView {
         isPreparingVoiceNote = true
         Task { @MainActor in
             let granted = await VoiceRecorder.shared.requestPermission()
+            // Ensure user is still holding the button (didn't cancel during permission prompt)
+            guard isPreparingVoiceNote else { return }
             guard granted else {
                 isPreparingVoiceNote = false
                 recordingAlertMessage = String(localized: "content.recording.microphone_required")

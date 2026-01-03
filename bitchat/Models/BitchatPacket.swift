@@ -87,7 +87,9 @@ struct BitchatPacket: Codable {
             version: version,
             route: route
         )
-        return BinaryProtocol.encode(unsignedPacket)
+        // Disable padding AND compression for signing to ensure deterministic binary representation
+        // regardless of platform-specific zlib differences or padding randomization
+        return BinaryProtocol.encode(unsignedPacket, padding: false, compress: false)
     }
     
     static func from(_ data: Data) -> BitchatPacket? {
